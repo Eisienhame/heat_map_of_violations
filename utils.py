@@ -3,9 +3,8 @@ from errors import InstantiateCSVError
 
 
 def import_csv_data(csv_data):
-    """ Функ-ция принимает csv файл с данными и преобразует в оформленный список словарей, где ключом
-    будет название продукта, а значения суммой цен и их кол-вом. Good_count необходим для настройки
-     какого количества продаж не достаточно, чтобы учитывать цену в статистику"""
+    """ Функ-ция принимает csv файл с данными и преобразует в оформленный список словарей, c участком дороги
+    и количеством аварий соответственно"""
     try:
         with open(csv_data, encoding='utf-8') as r_file:
             bad_roads = []
@@ -25,7 +24,7 @@ def import_csv_data(csv_data):
                         for i in bad_roads:
                             for k, v in i.items():
                                 if k == row[road_section_id]:
-                                    v += 1
+                                    i[k] += 1
                                     need_key = True
 
                     if (len(bad_roads) == 0) or (need_key is False):
@@ -42,7 +41,8 @@ def import_csv_data(csv_data):
         print("Файл поврежден")
 
 
-def find_price(data):
+def find_worst(data):
+    "Фун-я поиска худшей дороги"
     clear_list = []
     for i in data:
         for k, v in i.items():
