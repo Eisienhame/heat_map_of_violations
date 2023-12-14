@@ -1,5 +1,6 @@
 import csv
 from errors import InstantiateCSVError
+import matplotlib.pyplot as plt
 
 
 def import_csv_data(csv_data):
@@ -41,12 +42,38 @@ def import_csv_data(csv_data):
         print("Файл поврежден")
 
 
-def find_worst(data):
-    "Фун-я поиска худшей дороги"
-    clear_list = []
+def into_dict(data):
+    "Фун-я первода данных в нужный нам словарь"
+    clear_dict = {}
     for i in data:
         for k, v in i.items():
-            price = int(v[0]) / int(v[1])
-            clear_list.append([k, int(price)])
+            clear_dict[k] = v
+    sorted_clear_dict = sorted(clear_dict.items(), key=lambda item: item[0])
 
-    return clear_list
+    return sorted_clear_dict
+
+
+def into_dict_top10(data):
+    "Фун-я первода данных в нужный нам словарь"
+    clear_dict = {}
+    for i in data:
+        for k, v in i.items():
+            clear_dict[k] = v
+    sorted_clear_dict = sorted(clear_dict.items(), key=lambda item: item[1], reverse=True)
+
+    return sorted_clear_dict
+
+
+def build_graph(data):
+    'посторим график по данным'
+    X = []
+    Y = []
+
+    for i in data:
+        X.append(i[0])
+        Y.append(i[1])
+
+    plt.plot(X, Y)
+    plt.xlabel('Участок дороги')
+    plt.ylabel('Кол-во аварий')
+    plt.show()
